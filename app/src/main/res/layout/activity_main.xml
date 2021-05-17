@@ -31,6 +31,7 @@
         android:text="Share"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
+        android:onClick="shareMeme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/guideline2"

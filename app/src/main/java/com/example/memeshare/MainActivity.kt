@@ -1,5 +1,6 @@
 package com.example.memeshare
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    var currentMeme : String?= null
+
     private fun loadMeme() {
         val queue = Volley.newRequestQueue(this)
         val url = "https://meme-api.herokuapp.com/gimme"
@@ -32,8 +35,8 @@ class MainActivity : AppCompatActivity() {
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null,
             Response.Listener { response ->
-                val url = response.getString("url")
-                Glide.with(this).load(url).into(imageView)
+                currentMeme = response.getString("url")
+                Glide.with(this).load(currentMeme).into(imageView)
 
             },
             Response.ErrorListener {
@@ -48,6 +51,14 @@ class MainActivity : AppCompatActivity() {
 
     fun nextMeme(view: View) {
         loadMeme()
+    }
+
+    fun shareMeme(view: View) {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT,"${currentMeme}")
+        val chooser = Intent.createChooser(intent,"share this meme using...")
+        startActivity(chooser)
     }
 
 }
